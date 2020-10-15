@@ -13,6 +13,7 @@ type App struct {
 
 type Tenant struct {
 	TenantAccessToken string
+	Expire int64
 }
 
 type User struct {
@@ -59,6 +60,7 @@ func BuildTenantInternal(appId, appSecret string) (*Tenant, error){
 	}
 	return &Tenant{
 		TenantAccessToken: resp.TenantAccessToken,
+		Expire: resp.Expire,
 	}, nil
 }
 
@@ -72,5 +74,6 @@ func BuildTenant(appAccessToken, tenantKey string) (*Tenant, error){
 	}
 	return &Tenant{
 		TenantAccessToken: resp.TenantAccessToken,
+		Expire: resp.Expire,
 	}, nil
 }
