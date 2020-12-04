@@ -5,14 +5,14 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //获取通讯录授权范围 https://open.feishu.cn/document/ukTMukTMukTM/ugjNz4CO2MjL4YzM?lang=zh-CN
 func (t Tenant) GetScope() (*vo.GetScopeRespVo, error){
 	respBody, err := http.Get(consts.ApiScope, nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetScopeRespVo{}
@@ -24,7 +24,7 @@ func (t Tenant) GetScope() (*vo.GetScopeRespVo, error){
 func (t Tenant) GetScopeV2() (*vo.GetScopeRespV2Vo, error){
 	respBody, err := http.Get(consts.ApiScopeV2, nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetScopeRespV2Vo{}
@@ -42,7 +42,7 @@ func (t Tenant) GetDepartmentSimpleList(departmentId string, offset, pageSize in
 	}
 	respBody, err := http.Get(consts.ApiDepartmentSimpleList, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentSimpleListRespVo{}
@@ -65,7 +65,7 @@ func (t Tenant) GetDepartmentSimpleListV2(id string, pageToken string, pageSize 
 
 	respBody, err := http.Get(consts.ApiDepartmentSimpleListV2, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentSimpleListV2RespVo{}
@@ -81,7 +81,7 @@ func (t Tenant) GetDepartmentInfo(departmentId string) (*vo.GetDepartmentInfoRes
 	}
 	respBody, err := http.Get(consts.ApiDepartmentInfoGet, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentInfoRespVo{}
@@ -102,7 +102,7 @@ func (t Tenant) GetDepartmentInfoBatch(depIds []string) (*vo.GetDepartmentInfoBa
 	}
 	respBody, err := http.GetRepetition(consts.ApiDepartmentInfoBatchGet, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentInfoBatchRespVo{}
@@ -121,7 +121,7 @@ func (t Tenant) GetDepartmentUserList(departmentId string, offset, pageSize int,
 	}
 	respBody, err := http.Get(consts.ApiDepartmentUserList, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentUserListRespVo{}
@@ -144,7 +144,7 @@ func (t Tenant) GetDepartmentUserListV2(departmentId string, pageToken string, p
 
 	respBody, err := http.Get(consts.ApiDepartmentUserListV2, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentUserListV2RespVo{}
@@ -162,7 +162,7 @@ func (t Tenant) GetDepartmentUserDetailList(departmentId string, offset, pageSiz
 	}
 	respBody, err := http.Get(consts.ApiDepartmentUserDetailList, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetDepartmentUserDetailListRespVo{}
@@ -184,7 +184,7 @@ func (t Tenant) GetDepartmentUserDetailListV2(departmentId string, pageToken str
 	}
 	respBody, err := http.Get(consts.ApiDepartmentUserDetailListV2, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetUserBatchGetV2Resp{}
@@ -213,7 +213,7 @@ func (t Tenant) GetUserBatchGet(employeeIds []string, openIds []string) (*vo.Get
 	}
 	respBody, err := http.GetRepetition(consts.ApiUserBatchGet, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetUserBatchGetRespVo{}
@@ -242,7 +242,7 @@ func (t Tenant) GetUserBatchGetV2(employeeIds []string, openIds []string) (*vo.G
 	}
 	respBody, err := http.GetRepetition(consts.ApiUserBatchGetV2, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetUserBatchGetV2Resp{}

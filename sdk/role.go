@@ -5,14 +5,14 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //获取角色列表 https://open.feishu.cn/document/ukTMukTMukTM/uYzMwUjL2MDM14iNzATN?lang=zh-CN
 func (t Tenant) GetRoleList() (*vo.RoleListResp, error){
 	respBody, err := http.Get(consts.ApiRoleList, nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.RoleListResp{}
@@ -24,7 +24,7 @@ func (t Tenant) GetRoleList() (*vo.RoleListResp, error){
 func (t Tenant) GetRoleMemberList() (*vo.RoleMemberListResp, error){
 	respBody, err := http.Get(consts.ApiRoleMemberList, nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.RoleMemberListResp{}

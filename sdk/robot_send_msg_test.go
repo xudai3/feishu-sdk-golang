@@ -4,16 +4,16 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"gotest.tools/assert"
 	"testing"
 )
 
 func TestTenant_SendMessage(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.SendMessage(vo.MsgVo{
@@ -23,7 +23,7 @@ func TestTenant_SendMessage(t *testing.T) {
 			Text: "test msg",
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 
@@ -62,7 +62,7 @@ func TestTenant_SendMessage(t *testing.T) {
 			},
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 }
@@ -74,10 +74,10 @@ func TestNewFileUploadRequest(t *testing.T) {
 }
 
 func TestTenant_SendMessage_Card(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2e499c21bf8f1658")
+	tenant, e := BuildTenant(app.AppAccessToken, "2e499c21bf8f1658", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.SendMessage(vo.MsgVo{
@@ -127,16 +127,16 @@ func TestTenant_SendMessage_Card(t *testing.T) {
 			},
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 }
 
 func TestTenant_SendMessage_Card_Daily_Report(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.SendMessage(vo.MsgVo{
@@ -191,16 +191,16 @@ func TestTenant_SendMessage_Card_Daily_Report(t *testing.T) {
 			},
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 }
 
 func TestTenant_SendMessage_PC_Applet(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.SendMessageBatch(vo.BatchMsgVo{
@@ -239,16 +239,16 @@ func TestTenant_SendMessage_PC_Applet(t *testing.T) {
 			},
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 }
 
 func TestTenant_SendNewIssueCard(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.SendMessage(vo.MsgVo{
@@ -371,7 +371,7 @@ func TestTenant_SendNewIssueCard(t *testing.T) {
 			},
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 

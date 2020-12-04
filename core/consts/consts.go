@@ -144,3 +144,7 @@ const (
 	ActionInvite = "invite"
 	ActionRemove = "remove"
 )
+
+const (
+	Debug = "debug"
+)

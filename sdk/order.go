@@ -5,7 +5,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //查询用户是否在应用开通范围 https://open.feishu.cn/document/ukTMukTMukTM/uATNwUjLwUDM14CM1ATN
@@ -19,7 +19,7 @@ func (t Tenant) CheckUser(req vo.CheckUserReq) (*vo.CheckUserResp, error) {
 	}
 	respBody, err := http.Get(consts.ApiCheckUser, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CheckUserResp{}
@@ -42,7 +42,7 @@ func (t Tenant) GetOrderList(req vo.GetOrderListReq) (*vo.GetOrderListResp, erro
 	}
 	respBody, err := http.Get(consts.ApiGetOrderList, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetOrderListResp{}
@@ -56,7 +56,7 @@ func (t Tenant) GetOrderInfo(orderId string) (*vo.OrderInfoResp, error) {
 	queryParams["order_id"] = orderId
 	respBody, err := http.Get(consts.ApiGetOrderInfo, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.OrderInfoResp{}

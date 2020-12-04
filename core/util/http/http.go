@@ -5,7 +5,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -56,7 +56,7 @@ func DeleteRequest(url string, body string, headerOptions ...HeaderOption) (stri
 	defer func() {
 		if resp != nil{
 			if e := resp.Body.Close(); e != nil {
-				fmt.Println(e)
+				logger.Error(e)
 			}
 		}
 	}()
@@ -64,7 +64,7 @@ func DeleteRequest(url string, body string, headerOptions ...HeaderOption) (stri
 }
 
 func Delete(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	log.InfoF("请求body %s", body)
+	logger.Infof("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return DeleteRequest(fullUrl, body, headerOptions...)
@@ -83,7 +83,7 @@ func PatchRequest(url string, body string, headerOptions ...HeaderOption) (strin
 	defer func() {
 		if resp != nil{
 			if e := resp.Body.Close(); e != nil {
-				fmt.Println(e)
+				logger.Error(e)
 			}
 		}
 	}()
@@ -91,7 +91,7 @@ func PatchRequest(url string, body string, headerOptions ...HeaderOption) (strin
 }
 
 func Patch(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	log.InfoF("请求body %s", body)
+	logger.Infof("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return PatchRequest(fullUrl, body, headerOptions...)
@@ -110,7 +110,7 @@ func PostRequest(url string, body string, headerOptions ...HeaderOption) (string
 	defer func() {
 		if resp != nil {
 			if e := resp.Body.Close(); e != nil {
-				fmt.Println(e)
+				logger.Error(e)
 			}
 		}
 	}()
@@ -118,14 +118,14 @@ func PostRequest(url string, body string, headerOptions ...HeaderOption) (string
 }
 
 func Post(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	log.InfoF("请求body %s", body)
+	logger.Infof("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return PostRequest(fullUrl, body, headerOptions...)
 }
 
 func PostRepetition(url string, params []QueryParameter, body string, headerOptions ...HeaderOption) (string, error) {
-	log.InfoF("请求body %s", body)
+	logger.Infof("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParamsRepetition(params)
 	return PostRequest(fullUrl, body, headerOptions...)
@@ -143,7 +143,7 @@ func GetRequest(url string, headerOptions ...HeaderOption) (string, error) {
 	defer func() {
 		if resp != nil {
 			if e := resp.Body.Close(); e != nil {
-				fmt.Println(e)
+				logger.Error(e)
 			}
 		}
 	}()
@@ -157,21 +157,22 @@ func Get(url string, params map[string]interface{}, headerOptions ...HeaderOptio
 
 func GetRepetition(url string, params []QueryParameter, headerOptions ...HeaderOption) (string, error) {
 	fullUrl := url + ConvertToQueryParamsRepetition(params)
+	logger.Debugf("fullUrl:%v", fullUrl)
 	return GetRequest(fullUrl, headerOptions...)
 }
 
 func responseHandle(resp *http.Response, err error) (string, error) {
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return "", err
 	}
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return "", err
 	}
 	respBody := string(b)
-	log.InfoF("api %s 响应结果: %s", resp.Request.URL, respBody)
+	logger.Infof("api %s 响应结果: %s", resp.Request.URL, respBody)
 	return respBody, nil
 }
 
@@ -195,6 +196,9 @@ func ConvertToQueryParams(params map[string]interface{}) string {
 	return buffer.String()
 }
 
+// 生成key相同但是有很多个不同value的query params
+// https://open.feishu.cn/open-apis/contact/v1/department/detail/batch_get?
+// department_ids=od-2efe30807a10608754862a63b108828f&department_ids=od-da6427b2adbceb91204d7fa6aeb7e8ff
 func ConvertToQueryParamsRepetition(params []QueryParameter) string {
 	var buffer bytes.Buffer
 	buffer.WriteString("?")

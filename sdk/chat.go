@@ -5,7 +5,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"net/url"
 )
 
@@ -20,7 +20,7 @@ func (t Tenant) GroupList(userAccessToken string, pageSize int, pageToken string
 	}
 	respBody, err := http.Get(consts.ApiUserGroupLIst, queryParams, http.BuildTokenHeaderOptions(userAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GroupListRespVo{}
@@ -41,7 +41,7 @@ func (t Tenant) ChatMembers(userAccessToken string, chatId string, pageSize int,
 	}
 	respBody, err := http.Get(consts.ApiChatMembers, queryParams, http.BuildTokenHeaderOptions(userAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.ChatMembersRespVo{}
@@ -62,7 +62,7 @@ func (t Tenant) ChatSearch(userAccessToken string, query string, pageSize int, p
 	}
 	respBody, err := http.Get(consts.ApiChatSearch, queryParams, http.BuildTokenHeaderOptions(userAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GroupListRespVo{}

@@ -5,7 +5,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //创建群 https://open.feishu.cn/document/ukTMukTMukTM/ukDO5QjL5gTO04SO4kDN
@@ -13,7 +13,7 @@ func (t Tenant) CreateChat(msg vo.CreateChatReqVo) (*vo.CreateChatRespVo, error)
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiCreateChat, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CreateChatRespVo{}
@@ -32,7 +32,7 @@ func (t Tenant) ChatList(pageSize int, pageToken string) (*vo.GroupListRespVo, e
 	}
 	respBody, err := http.Get(consts.ApiChatList, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GroupListRespVo{}
@@ -48,7 +48,7 @@ func (t Tenant) ChatInfo(chatId string) (*vo.ChatInfoRespVo, error) {
 
 	respBody, err := http.Get(consts.ApiChatInfo, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.ChatInfoRespVo{}
@@ -61,7 +61,7 @@ func (t Tenant) UpdateChat(msg vo.UpdateChatReqVo) (*vo.UpdateChatRespVo, error)
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiUpdateChat, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.UpdateChatRespVo{}
@@ -74,7 +74,7 @@ func (t Tenant) AddChatUser(msg vo.UpdateChatMemberReqVo) (*vo.UpdateChatMemberR
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiAddChatUser, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.UpdateChatMemberRespVo{}
@@ -87,7 +87,7 @@ func (t Tenant) RemoveChatUser(msg vo.UpdateChatMemberReqVo) (*vo.UpdateChatMemb
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiRemoveChatUser, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.UpdateChatMemberRespVo{}
@@ -100,7 +100,7 @@ func (t Tenant) DisbandChat(msg vo.UpdateChatData) (*vo.CommonVo, error) {
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiDisbandChat, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonVo{}
@@ -113,7 +113,7 @@ func (t Tenant) AddBot(msg vo.UpdateChatData) (*vo.CommonVo, error) {
 	reqBody := json.ToJsonIgnoreError(msg)
 	respBody, err := http.Post(consts.ApiAddBot, nil, reqBody, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonVo{}

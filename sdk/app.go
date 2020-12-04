@@ -5,7 +5,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //校验应用管理员 https://open.feishu.cn/document/ukTMukTMukTM/uITN1EjLyUTNx4iM1UTM
@@ -20,7 +20,7 @@ func (t Tenant) IsUserAdmin(openId string, employeeId string) (*vo.IsUserAdminRe
 	}
 	respBody, err := http.Get(consts.ApiIsUserAdmin, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.IsUserAdminResp{}

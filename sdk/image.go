@@ -2,7 +2,7 @@ package sdk
 
 import (
 	"bytes"
-	"fmt"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -38,14 +38,14 @@ func NewFileUploadRequest(uri string, params map[string]string, paramName, path 
 	client := http.Client{}
 	resp, err := client.Do(request)
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error(err.Error())
 	}
 	respBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error(err.Error())
 		return err
 	}
 	str := (*string)(unsafe.Pointer(&respBytes))
-	fmt.Println(*str)
+	logger.Error(*str)
 	return err
 }

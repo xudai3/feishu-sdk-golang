@@ -5,7 +5,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //搜索用户 https://bytedance.feishu.cn/docs/doccnizryz7NKuUmVfkRJWeZGVc
@@ -23,7 +23,7 @@ func (u User) SearchUser(query string, pageSize int, pageToken string) (*vo.Sear
 	}
 	respBody, err := http.Get(consts.ApiSearchUser, queryParams, http.BuildTokenHeaderOptions(u.UserAccessToken))
 	if err != nil{
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.SearchUserResp{}

@@ -3,6 +3,7 @@ package sdk
 import (
 	"errors"
 	"fmt"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 type App struct {
@@ -20,7 +21,12 @@ type User struct {
 	UserAccessToken string
 }
 
-func BuildInternalApp(appId, appSecret string) (*App, error){
+func BuildInternalApp(appId, appSecret string, logLevel string) (*App, error){
+	err := logger.InitLogger(logLevel)
+	if err != nil {
+		fmt.Printf("logger init failed:%v\n", err)
+		return nil, err
+	}
 	resp, err := GetAppAccessTokenInternal(appId, appSecret)
 	if err != nil{
 		return nil, err
@@ -35,7 +41,12 @@ func BuildInternalApp(appId, appSecret string) (*App, error){
 	}, nil
 }
 
-func BuildApp(appId, appSecret, appTicket string) (*App, error){
+func BuildApp(appId, appSecret, appTicket string, logLevel string) (*App, error){
+	err := logger.InitLogger(logLevel)
+	if err != nil {
+		fmt.Printf("logger init failed:%v\n", err)
+		return nil, err
+	}
 	resp, err := GetAppAccessToken(appId, appSecret, appTicket)
 	if err != nil{
 		return nil, err
@@ -50,7 +61,12 @@ func BuildApp(appId, appSecret, appTicket string) (*App, error){
 	}, nil
 }
 
-func BuildTenantInternal(appId, appSecret string) (*Tenant, error){
+func BuildTenantInternal(appId, appSecret string, logLevel string) (*Tenant, error){
+	err := logger.InitLogger(logLevel)
+	if err != nil {
+		fmt.Printf("logger init failed:%v\n", err)
+		return nil, err
+	}
 	resp, err := GetTenantAccessTokenInternal(appId, appSecret)
 	if err != nil{
 		return nil, err
@@ -64,7 +80,12 @@ func BuildTenantInternal(appId, appSecret string) (*Tenant, error){
 	}, nil
 }
 
-func BuildTenant(appAccessToken, tenantKey string) (*Tenant, error){
+func BuildTenant(appAccessToken, tenantKey string, logLevel string) (*Tenant, error){
+	err := logger.InitLogger(logLevel)
+	if err != nil {
+		fmt.Printf("logger init failed:%v\n", err)
+		return nil, err
+	}
 	resp, err := GetTenantAccessToken(appAccessToken, tenantKey)
 	if err != nil{
 		return nil, err

@@ -4,7 +4,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"gotest.tools/assert"
 	"testing"
 )
@@ -13,19 +13,19 @@ var calendarId = "feishu.cn_lNRyD5571uIiNGqLl1KZwe@group.calendar.feishu.cn"
 var calendarEventId = "9e1e3aed-3fa9-486c-99bf-4b42ffdbe384"
 
 func TestTenant_GetCalendar(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetCalendar(calendarId)
-	log.Info("日历:", json.ToJsonIgnoreError(resp), err)
+	logger.Info("日历:", json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 
 	resp2, err2 := tenant.GetCalendarList(nil, nil, nil)
-	log.Info("日历列表：", json.ToJsonIgnoreError(resp2), err2)
+	logger.Info("日历列表：", json.ToJsonIgnoreError(resp2), err2)
 	assert.Equal(t, err2, nil)
 	assert.Equal(t, resp2.Code, 200000)
 }
@@ -41,7 +41,7 @@ func TestTenant_CreateCalendar(t *testing.T) {
 		Summary:     "日历就是日历",
 		Description: "测试使用",
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -58,7 +58,7 @@ func TestTenant_UpdateCalendar(t *testing.T) {
 		Description:       "测试使用哈",
 		DefaultAccessRole: "free_busy_reader",
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -88,7 +88,7 @@ func TestTenant_CreateCalendarEvent(t *testing.T) {
 		},
 		Attendees: &attend,
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -101,7 +101,7 @@ func TestTenant_GetCalendarEventList(t *testing.T) {
 	t.Log(e)
 
 	resp, err := tenant.GetCalendarEventList("feishu.cn_NEb1HqWfXyjSKu4zQ4fe3b@group.calendar.feishu.cn", nil, nil, nil)
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -123,7 +123,7 @@ func TestTenant_UpdateCalendarEvent(t *testing.T) {
 			Date: "2019-11-21",
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -136,7 +136,7 @@ func TestTenant_DeleteCalendarEvent(t *testing.T) {
 	t.Log(e)
 
 	resp, err := tenant.DeleteCalendarEvent("feishu.cn_NEb1HqWfXyjSKu4zQ4fe3b@group.calendar.feishu.cn", "3cca07ad-206e-41c5-92d9-29be0118b043")
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -162,7 +162,7 @@ func TestTenant_UpdateCalendarEventAttendees(t *testing.T) {
 	resp, err := tenant.UpdateCalendarEventAttendees("feishu.cn_NEb1HqWfXyjSKu4zQ4fe3b@group.calendar.feishu.cn", "3cca07ad-206e-41c5-92d9-29be0118b043", vo.UpdateCalendarEventAtendeesReq{
 		Attendees: attend,
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -175,7 +175,7 @@ func TestTenant_GetCalendarAttendeesAcl(t *testing.T) {
 	t.Log(e)
 
 	resp, err := tenant.GetCalendarAttendeesAcl(calendarId)
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -194,7 +194,7 @@ func TestTenant_AddCalendarAttendeesAcl(t *testing.T) {
 			OpenId: "ou_87f1b2210acad10a90cc3690802626d7",
 		},
 	})
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }
@@ -207,7 +207,7 @@ func TestTenant_DeleteCalendarAttendeesAcl(t *testing.T) {
 	t.Log(e)
 	resp, err := tenant.DeleteCalendarAttendeesAcl(calendarId, "ou_87f1b2210acad10a90cc3690802626d7")
 
-	log.Info(json.ToJsonIgnoreError(resp), err)
+	logger.Info(json.ToJsonIgnoreError(resp), err)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 200000)
 }

@@ -6,14 +6,14 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
-	"github.com/galaxy-book/feishu-sdk-golang/core/util/log"
+	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 //获取日历 https://open.feishu.cn/document/ukTMukTMukTM/uMDN04yM0QjLzQDN?lang=zh-CN
 func (t Tenant) GetCalendar(calendarId string) (*vo.CommonCalendarResp, error) {
 	respBody, err := http.Get(fmt.Sprintf(consts.ApiCalendarGet, calendarId), nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonCalendarResp{}
@@ -30,7 +30,7 @@ func (t Tenant) GetCalendarList(maxResults *int64, pageToken *string, syncToken 
 	}
 	respBody, err := http.Get(consts.ApiCalendarListGet, queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CalendarListResp{}
@@ -42,7 +42,7 @@ func (t Tenant) GetCalendarList(maxResults *int64, pageToken *string, syncToken 
 func (t Tenant) CreateCalendar(bodyParams vo.CreateCalendarReq) (*vo.CommonCalendarResp, error) {
 	respBody, err := http.Post(consts.ApiCalendarCreate, nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonCalendarResp{}
@@ -54,7 +54,7 @@ func (t Tenant) CreateCalendar(bodyParams vo.CreateCalendarReq) (*vo.CommonCalen
 func (t Tenant) UpdateCalendar(calendarId string, bodyParams vo.UpdateCalendarReq) (*vo.CommonCalendarResp, error) {
 	respBody, err := http.Patch(fmt.Sprintf(consts.ApiCalendarUpdate, calendarId), nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonCalendarResp{}
@@ -66,7 +66,7 @@ func (t Tenant) UpdateCalendar(calendarId string, bodyParams vo.UpdateCalendarRe
 func (t Tenant) DeleteCalendar(calendarId string) (*vo.CommonVo, error) {
 	respBody, err := http.Delete(fmt.Sprintf(consts.ApiCalendarUpdate, calendarId), nil, "", http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonVo{}
@@ -83,7 +83,7 @@ func (t Tenant) GetCalendarEventList(calendarId string, maxResults *int64, pageT
 	}
 	respBody, err := http.Get(fmt.Sprintf(consts.ApiCalendarEventCreate, calendarId), queryParams, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CalendarEventListResp{}
@@ -95,7 +95,7 @@ func (t Tenant) GetCalendarEventList(calendarId string, maxResults *int64, pageT
 func (t Tenant) CreateCalendarEvent(calendarId string, bodyParams vo.CreateCalendarEventReq) (*vo.CommonCalendarEventResp, error) {
 	respBody, err := http.Post(fmt.Sprintf(consts.ApiCalendarEventCreate, calendarId), nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonCalendarEventResp{}
@@ -107,7 +107,7 @@ func (t Tenant) CreateCalendarEvent(calendarId string, bodyParams vo.CreateCalen
 func (t Tenant) DeleteCalendarEvent(calendarId string, eventId string) (*vo.CommonVo, error) {
 	respBody, err := http.Delete(fmt.Sprintf(consts.ApiCalendarEventDelete, calendarId, eventId), nil, "", http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonVo{}
@@ -119,7 +119,7 @@ func (t Tenant) DeleteCalendarEvent(calendarId string, eventId string) (*vo.Comm
 func (t Tenant) UpdateCalendarEvent(calendarId string, eventId string, bodyParams vo.CreateCalendarEventReq) (*vo.CommonCalendarEventResp, error) {
 	respBody, err := http.Patch(fmt.Sprintf(consts.ApiCalendarEventDelete, calendarId, eventId), nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonCalendarEventResp{}
@@ -131,7 +131,7 @@ func (t Tenant) UpdateCalendarEvent(calendarId string, eventId string, bodyParam
 func (t Tenant) UpdateCalendarEventAttendees(calendarId string, eventId string, bodyParams vo.UpdateCalendarEventAtendeesReq) (*vo.UpdateCalendarEventAtendeesResp, error) {
 	respBody, err := http.Post(fmt.Sprintf(consts.ApiCalendarEventAttendeesUpdate, calendarId, eventId), nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.UpdateCalendarEventAtendeesResp{}
@@ -143,7 +143,7 @@ func (t Tenant) UpdateCalendarEventAttendees(calendarId string, eventId string, 
 func (t Tenant) GetCalendarAttendeesAcl(calendarId string) (*vo.GetCalendarAttendeesResp, error) {
 	respBody, err := http.Get(fmt.Sprintf(consts.ApiCalendarAttendeesGet, calendarId), nil, http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetCalendarAttendeesResp{}
@@ -155,7 +155,7 @@ func (t Tenant) GetCalendarAttendeesAcl(calendarId string) (*vo.GetCalendarAtten
 func (t Tenant) AddCalendarAttendeesAcl(calendarId string, bodyParams vo.AddCalendarAttendeesAclReq) (*vo.GetCalendarAttendeesResp, error) {
 	respBody, err := http.Post(fmt.Sprintf(consts.ApiCalendarAttendeesGet, calendarId), nil, json.ToJsonIgnoreError(bodyParams), http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.GetCalendarAttendeesResp{}
@@ -167,7 +167,7 @@ func (t Tenant) AddCalendarAttendeesAcl(calendarId string, bodyParams vo.AddCale
 func (t Tenant) DeleteCalendarAttendeesAcl(calendarId string, ruleId string) (*vo.CommonVo, error) {
 	respBody, err := http.Delete(fmt.Sprintf(consts.ApiCalendarAttendeesDelete, calendarId, ruleId), nil, "", http.BuildTokenHeaderOptions(t.TenantAccessToken))
 	if err != nil {
-		log.Error(err)
+		logger.Error(err)
 		return nil, err
 	}
 	respVo := &vo.CommonVo{}

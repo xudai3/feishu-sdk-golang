@@ -7,10 +7,10 @@ import (
 )
 
 func TestTenant_IsUserAdmin(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.IsUserAdmin("ou_b7d861c94cea4d316a6bfc5e8421994c", "")
