@@ -120,3 +120,48 @@ func (t Tenant) AddBot(msg vo.UpdateChatData) (*vo.CommonVo, error) {
 	json.FromJsonIgnoreError(respBody, respVo)
 	return respVo, nil
 }
+
+// ---------------
+// 自行封装的一些方法
+
+func (t Tenant) GetGroupIdByName(groupName string) string {
+	var groupId string
+	groupData, err := t.ChatList(100, "")
+	if err != nil {
+		logger.Errorf("get chat list failed:%s", err)
+	}
+	for _, group := range groupData.Data.Groups {
+		if group.Name == groupName {
+			groupId = group.ChatId
+		}
+	}
+	if groupId == "" {
+		logger.Errorf("未找到该群:%s", groupName)
+	}
+	return groupId
+}
+
+func (t Tenant) ListUserOpenIdsFromGroup(groupName string) []string {
+	var openIds []string
+	groupId := t.GetGroupIdByName(groupName)
+
+	memberData, err := t.ChatInfo(groupId)
+	if err != nil {
+		logger.Errorf("get member list failed:%s", err)
+	}
+	openIds = make([]string, len(memberData.Data.Members))
+	for idx, member := range memberData.Data.Members {
+		openIds[idx] = member.OpenId
+	}
+	return openIds
+}
+
+func (t Tenant) ListUserInfosFromGroup(groupName string) []vo.UserDetailInfo {
+	openIds := t.ListUserOpenIdsFromGroup(groupName)
+
+	userDetails, err := t.GetUserBatchGet(nil, openIds)
+	if err != nil {
+		logger.Errorf("get user details failed:%s", err)
+	}
+	return userDetails.Data.UserInfos
+}
