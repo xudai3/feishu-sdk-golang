@@ -64,7 +64,7 @@ func DeleteRequest(url string, body string, headerOptions ...HeaderOption) (stri
 }
 
 func Delete(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	logger.Infof("请求body %s", body)
+	logger.Debugf("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return DeleteRequest(fullUrl, body, headerOptions...)
@@ -91,7 +91,7 @@ func PatchRequest(url string, body string, headerOptions ...HeaderOption) (strin
 }
 
 func Patch(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	logger.Infof("请求body %s", body)
+	logger.Debugf("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return PatchRequest(fullUrl, body, headerOptions...)
@@ -118,14 +118,14 @@ func PostRequest(url string, body string, headerOptions ...HeaderOption) (string
 }
 
 func Post(url string, params map[string]interface{}, body string, headerOptions ...HeaderOption) (string, error) {
-	logger.Infof("请求body %s", body)
+	logger.Debugf("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParams(params)
 	return PostRequest(fullUrl, body, headerOptions...)
 }
 
 func PostRepetition(url string, params []QueryParameter, body string, headerOptions ...HeaderOption) (string, error) {
-	logger.Infof("请求body %s", body)
+	logger.Debugf("请求body %s", body)
 
 	fullUrl := url + ConvertToQueryParamsRepetition(params)
 	return PostRequest(fullUrl, body, headerOptions...)
@@ -172,7 +172,7 @@ func responseHandle(resp *http.Response, err error) (string, error) {
 		return "", err
 	}
 	respBody := string(b)
-	logger.Infof("api %s 响应结果: %s", resp.Request.URL, respBody)
+	logger.Debugf("api %s 响应结果: %s", resp.Request.URL, respBody)
 	return respBody, nil
 }
 
