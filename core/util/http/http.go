@@ -7,6 +7,7 @@ import (
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"strings"
 	"time"
@@ -40,6 +41,13 @@ func BuildTokenHeaderOptions(tenantAccessToken string) HeaderOption {
 	return HeaderOption{
 		Name:  "Authorization",
 		Value: "Bearer " + tenantAccessToken,
+	}
+}
+
+func BuildMultiPartHeaderOptions(writer *multipart.Writer) HeaderOption {
+	return HeaderOption{
+		Name: "Content-Type",
+		Value: writer.FormDataContentType(),
 	}
 }
 
@@ -103,6 +111,25 @@ func PostRequest(url string, body string, headerOptions ...HeaderOption) (string
 		return "", err
 	}
 	req.Header.Set("Content-Type", defaultContentType)
+	for _, headerOption := range headerOptions {
+		req.Header.Set(headerOption.Name, headerOption.Value)
+	}
+	resp, err := httpClient.Do(req)
+	defer func() {
+		if resp != nil {
+			if e := resp.Body.Close(); e != nil {
+				logger.Error(e)
+			}
+		}
+	}()
+	return responseHandle(resp, err)
+}
+
+func PostImage(url string, data *bytes.Buffer, headerOptions ...HeaderOption) (string, error) {
+	req, err := http.NewRequest("POST", url, data)
+	if err != nil {
+		return "", err
+	}
 	for _, headerOption := range headerOptions {
 		req.Header.Set(headerOption.Name, headerOption.Value)
 	}
