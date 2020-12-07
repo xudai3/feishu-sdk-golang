@@ -37,13 +37,14 @@ func (t Tenant) SendMessageBatch(msg vo.BatchMsgVo) (*vo.MsgResp, error) {
 // ---------------
 // 自行封装的一些方法
 
-func (t Tenant) SendTextMessage(chatId string, text string) {
-	if chatId == "" {
-		logger.Debugf("chatId empty, send msg failed")
+func (t Tenant) SendTextMessage(openId string, chatId string, text string) {
+	if chatId == "" && openId == "" {
+		logger.Debugf("openId and chatId empty, send msg failed")
 		return
 	}
 	msg := vo.MsgVo{
 		MsgType: consts.MsgTypeText,
+		OpenId: openId,
 		ChatId: chatId,
 		Content: &vo.MsgContent{
 			Text: text,
@@ -55,13 +56,14 @@ func (t Tenant) SendTextMessage(chatId string, text string) {
 	}
 }
 
-func (t Tenant) SendImageMessage(chatId string, imageKey string) {
-	if chatId == "" {
-		logger.Debugf("chatId empty, send msg failed")
+func (t Tenant) SendImageMessage(openId string, chatId string, imageKey string) {
+	if chatId == "" && openId == "" {
+		logger.Debugf("openId and chatId empty, send msg failed")
 		return
 	}
 	req := vo.MsgVo{
 		MsgType: consts.MsgTypeImage,
+		OpenId: openId,
 		ChatId: chatId,
 		Content: &vo.MsgContent{
 			ImageKey:imageKey,
@@ -73,9 +75,14 @@ func (t Tenant) SendImageMessage(chatId string, imageKey string) {
 	}
 }
 
-func (t Tenant) SendCardMessage(chatId string, card *vo.Card, update bool) {
+func (t Tenant) SendCardMessage(openId string, chatId string, card *vo.Card, update bool) {
+	if chatId == "" && openId == "" {
+		logger.Debugf("openId and chatId empty, send msg failed")
+		return
+	}
 	req := vo.MsgVo{
 		MsgType: consts.MsgTypeInteractive,
+		OpenId: openId,
 		ChatId:  chatId,
 		UpdateMulti: update,
 		Card:        card,
