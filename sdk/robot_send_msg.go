@@ -42,13 +42,47 @@ func (t Tenant) SendTextMessage(chatId string, text string) {
 		logger.Debugf("chatId empty, send msg failed")
 		return
 	}
-	msg := vo.MsgVo{}
-	msg.OpenId = chatId
-	msg.Content = &vo.MsgContent{}
-	msg.Content.Text = text
-	msg.MsgType = "text"
+	msg := vo.MsgVo{
+		MsgType: consts.MsgTypeText,
+		ChatId: chatId,
+		Content: &vo.MsgContent{
+			Text: text,
+		},
+	}
 	_, err := t.SendMessage(msg)
 	if err != nil {
 		logger.Errorf("send message:%s failed:%s", text, err)
+	}
+}
+
+func (t Tenant) SendImageMessage(chatId string, imageKey string) {
+	if chatId == "" {
+		logger.Debugf("chatId empty, send msg failed")
+		return
+	}
+	req := vo.MsgVo{
+		MsgType: consts.MsgTypeImage,
+		ChatId: chatId,
+		Content: &vo.MsgContent{
+			ImageKey:imageKey,
+		}}
+	rsp, err := t.SendMessage(req)
+	if err != nil {
+		logger.Errorf("send image message failed rsp:%v err:%v", rsp, err)
+		return
+	}
+}
+
+func (t Tenant) SendCardMessage(chatId string, card *vo.Card, update bool) {
+	req := vo.MsgVo{
+		MsgType: consts.MsgTypeInteractive,
+		ChatId:  chatId,
+		UpdateMulti: update,
+		Card:        card,
+	}
+	rsp, err := t.SendMessage(req)
+	if err != nil {
+		logger.Errorf("send card message failed rsp:%v err:%v", rsp, err)
+		return
 	}
 }

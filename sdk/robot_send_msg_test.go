@@ -67,11 +67,11 @@ func TestTenant_SendMessage(t *testing.T) {
 	assert.Equal(t, resp.Code, 0)
 }
 
-func TestNewFileUploadRequest(t *testing.T) {
-	data := make(map[string]string)
-	t.Log(NewFileUploadRequest("https://open.feishu.cn/open-apis/image/v4/put/",
-		data, "image", "C:\\Users\\admin\\Desktop\\物料宣传.jpg"))
-}
+//func TestNewFileUploadRequest(t *testing.T) {
+//	data := make(map[string]string)
+//	t.Log(NewFileUploadRequest("https://open.feishu.cn/open-apis/image/v4/put/",
+//		data, "image", "C:\\Users\\admin\\Desktop\\物料宣传.jpg"))
+//}
 
 func TestTenant_SendMessage_Card(t *testing.T) {
 	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
@@ -94,28 +94,28 @@ func TestTenant_SendMessage_Card(t *testing.T) {
 				},
 			},
 			Elements: []interface{}{
-				vo.CardElementImageModule{
+				vo.CardModuleImage{
 					Tag: "img",
-					Alt: vo.CardElementText{
+					Alt: vo.CardObjText{
 						Tag:     "lark_md",
 						Content: "北极星协作",
 					},
 					ImgKey: "img_5bb79fbc-12f6-4a67-a4f9-dee33e5bd3fg",
 				},
-				vo.CardElementContentModule{
+				vo.CardModuleContent{
 					Tag: "div",
-					Text: &vo.CardElementText{
+					Text: &vo.CardObjText{
 						Tag:     "plain_text",
 						Content: "1. 小程序：大幅优化了性能和体验\n2. 工作台改版：方便快速定位到近期截止且与我相关的任务\n3. 新增任务筛选器：组织内与我相关的所有任务一目了然\n4. 新增任务表格视图：更直观的查看任务信息，支持批量操作任务\n5. 新增敏捷研发项目：需求的分解 –> 任务的推进 –> QA缺陷的修复，迭代规划，高效推动产品的Scrum敏捷研发",
 					},
 				},
 
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionButton{
+						vo.CardElementButton{
 							Tag: "button",
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "plain_text",
 								Content: "查看更多",
 							},
@@ -153,33 +153,33 @@ func TestTenant_SendMessage_Card_Daily_Report(t *testing.T) {
 				},
 			},
 			Elements: []interface{}{
-				vo.CardElementContentModule{
+				vo.CardModuleContent{
 					Tag: "div",
-					Fields: []vo.CardElementField{
+					Fields: []vo.CardObjField{
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**今日完成:** 100",
 							},
 						},
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**剩余:** 15",
 							},
 						},
 					},
 				},
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionButton{
+						vo.CardElementButton{
 							Tag: "button",
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "plain_text",
 								Content: "去处理",
 							},
-							MultiUrl: &vo.CardElementUrl{
+							MultiUrl: &vo.CardObjUrl{
 								PcUrl:      "http://feishu.cn",
 								IosUrl:     "https://baidu.com",
 								AndroidUrl: "http://app.bjx.cloud/project",
@@ -217,16 +217,16 @@ func TestTenant_SendMessage_PC_Applet(t *testing.T) {
 				},
 			},
 			Elements: []interface{}{
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionButton{
+						vo.CardElementButton{
 							Tag: "button",
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "plain_text",
 								Content: "点击预览",
 							},
-							MultiUrl: &vo.CardElementUrl{
+							MultiUrl: &vo.CardObjUrl{
 								PcUrl: "https://applink.feishu.cn/client/mini_program/open?appId=cli_9d5e49aae9ae9101&mode=sidebar-semi&path=pages/PC/Home/index",
 								//PcUrl: "https://applink.feishu.cn/client/mini_program/open?appId=cli_9d5e49aae9ae9101&mode=sidebar-semi",
 								IosUrl:     "https://baidu.com",
@@ -265,56 +265,56 @@ func TestTenant_SendNewIssueCard(t *testing.T) {
 				},
 			},
 			Elements: []interface{}{
-				vo.CardElementContentModule{
+				vo.CardModuleContent{
 					Tag: "div",
-					Fields: []vo.CardElementField{
+					Fields: []vo.CardObjField{
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**所属项目**\n个人安排",
 							},
 						},
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**\n任务标题**增加一个按钮",
 								Lines:   3,
 							},
 						},
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**\n负责人: ** " + "符莎321312" + "\t\t **优先级: **" + "普通",
 							},
 						},
 					},
 				},
-				vo.CardElementContentModule{
+				vo.CardModuleContent{
 					Tag: "div",
-					Fields: []vo.CardElementField{
+					Fields: []vo.CardObjField{
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**计划开始时间:**",
 							},
 						},
 					},
 				},
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionDatePicker{
+						vo.CardElementDatePicker{
 							Tag: "picker_datetime",
-							Placeholder: &vo.CardElementText{
+							Placeholder: &vo.CardObjText{
 								Tag:     "plain_text",
 								Content: "修改计划开始时间",
 							},
-							Confirm: &vo.CardElementConfirm{
+							Confirm: &vo.CardObjConfirm{
 								Title: &vo.CardHeaderTitle{
 									Tag:     "plain_text",
 									Content: "确认要修改这个任务的计划开始时间吗?",
 								},
-								Text: &vo.CardElementText{
+								Text: &vo.CardObjText{
 									Tag:     "plain_text",
 									Content: "⏰ 新任务",
 								},
@@ -322,32 +322,32 @@ func TestTenant_SendNewIssueCard(t *testing.T) {
 						},
 					},
 				},
-				vo.CardElementContentModule{
+				vo.CardModuleContent{
 					Tag: "div",
-					Fields: []vo.CardElementField{
+					Fields: []vo.CardObjField{
 						{
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "**计划截止时间:**",
 							},
 						},
 					},
 				},
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionDatePicker{
+						vo.CardElementDatePicker{
 							Tag: "picker_datetime",
-							Placeholder: &vo.CardElementText{
+							Placeholder: &vo.CardObjText{
 								Tag:     "plain_text",
 								Content: "修改截止时间",
 							},
-							Confirm: &vo.CardElementConfirm{
+							Confirm: &vo.CardObjConfirm{
 								Title: &vo.CardHeaderTitle{
 									Tag:     "plain_text",
 									Content: "确认要修改这个任务的截止时间吗?",
 								},
-								Text: &vo.CardElementText{
+								Text: &vo.CardObjText{
 									Tag:     "plain_text",
 									Content: "确定修改",
 								},
@@ -355,12 +355,12 @@ func TestTenant_SendNewIssueCard(t *testing.T) {
 						},
 					},
 				},
-				vo.CardElementActionModule{
+				vo.CardModuleAction{
 					Tag: "action",
 					Actions: []interface{}{
-						vo.ActionButton{
+						vo.CardElementButton{
 							Tag: "button",
-							Text: vo.CardElementText{
+							Text: vo.CardObjText{
 								Tag:     "lark_md",
 								Content: "查看任务详情",
 							},
@@ -383,15 +383,15 @@ func TestTenant_SendMessageBatch(t *testing.T) {
 		MsgType: "interactive",
 		Card: &vo.Card{
 			Elements: []interface{}{
-				vo.CardElementImageModule{
+				vo.CardModuleImage{
 					Tag: "img",
-					Alt: vo.CardElementText{
+					Alt: vo.CardObjText{
 						Tag:     "lark_md",
 						Content: "11",
 						//Lines:   0,
 						//Href:    nil,
 					},
-					Title: &vo.CardElementText{
+					Title: &vo.CardObjText{
 						Tag:     "lark_md",
 						Content: "11",
 					},
