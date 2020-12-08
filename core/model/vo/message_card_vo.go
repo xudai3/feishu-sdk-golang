@@ -52,7 +52,7 @@ type CardElementButton struct {
 	Url      string                 `json:"url,omitempty"`
 	MultiUrl *CardObjUrl            `json:"multi_url"`
 	Type     string                 `json:"type,omitempty"`
-	Value    map[string]interface{} `json:"value,omitempty"`
+	Value    interface{} `json:"value,omitempty"`
 	Confirm  *CardObjConfirm        `json:"confirm,omitempty"`
 }
 
@@ -62,7 +62,7 @@ type CardElementSelectMenu struct {
 	Placeholder   *CardObjText           `json:"placeholder,omitempty"`
 	InitialOption string                 `json:"initial_option,omitempty"`
 	Options       []CardObjOption        `json:"options"`
-	Value         map[string]interface{} `json:"value,omitempty"`
+	Value         interface{} `json:"value,omitempty"`
 	Confirm       *CardObjConfirm        `json:"confirm,omitempty"`
 }
 
@@ -70,7 +70,7 @@ type CardElementOverflow struct {
 	Tag string `json:"tag"`
 
 	Options []CardObjOption        `json:"options"`
-	Value   map[string]interface{} `json:"value,omitempty"`
+	Value   interface{} `json:"value,omitempty"`
 	Confirm *CardObjConfirm        `json:"confirm,omitempty"`
 }
 
@@ -81,7 +81,7 @@ type CardElementDatePicker struct {
 	InitialTime     string                 `json:"initial_time,omitempty"`
 	InitialDatetime string                 `json:"initial_datetime,omitempty"`
 	Placeholder     *CardObjText           `json:"placeholder,omitempty"`
-	Value           map[string]interface{} `json:"value,omitempty"`
+	Value           interface{} `json:"value,omitempty"`
 	Confirm         *CardObjConfirm        `json:"confirm,omitempty"`
 }
 
@@ -172,7 +172,7 @@ func NewButton(btnType string,
 	           content string,
 	           url string,
 	           multiUrl *CardObjUrl,
-	           value map[string]interface{},
+	           value interface{},
 		       confirm *CardObjConfirm) *CardElementButton {
 	return &CardElementButton{
 		Tag: consts.TagBtn,
