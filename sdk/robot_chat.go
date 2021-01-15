@@ -159,9 +159,9 @@ func (t Tenant) ListUserOpenIdsFromGroup(groupName string) []string {
 func (t Tenant) ListUserInfosFromGroup(groupName string) []vo.UserDetailInfo {
 	openIds := t.ListUserOpenIdsFromGroup(groupName)
 
-	userDetails, err := t.GetUserBatchGet(nil, openIds)
+	userDetails, err := t.ListUsersByOpenIds(openIds)
 	if err != nil {
 		logger.Errorf("get user details failed:%s", err)
 	}
-	return userDetails.Data.UserInfos
+	return userDetails
 }

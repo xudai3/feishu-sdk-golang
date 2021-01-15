@@ -192,7 +192,37 @@ func (t Tenant) GetDepartmentUserDetailListV2(departmentId string, pageToken str
 	return respVo, nil
 }
 
+func (t Tenant) ListUsersByOpenIds(openIds []string) ([]vo.UserDetailInfo, error) {
+	n := len(openIds)
+	begin := 0
+	end := 0
+	if n > 100 {
+		end = 100
+	} else {
+		end = n
+	}
+	userDetails := make([]vo.UserDetailInfo, 0, n)
+	for n > 0 {
+		rsp, err := t.GetUserBatchGet(nil, openIds[begin:end])
+		if err != nil {
+			logger.Errorf("batch get [%d:%d] user info failed:%v", begin, end, err)
+			return nil, err
+		} else {
+			userDetails = append(userDetails, rsp.Data.UserInfos...)
+		}
+		n = n - (end - begin)
+		begin = end
+		if n > 100 {
+			end = end + 100
+		} else {
+			end = end + n
+		}
+	}
+	return userDetails, nil
+}
+
 //批量获取用户信息 https://open.feishu.cn/document/ukTMukTMukTM/uIzNz4iM3MjLyczM
+// 支持通过 open_id 或者 employee_id 查询用户信息，不支持混合两种 ID 进行查询，单次请求支持的最大用户数量为100
 func (t Tenant) GetUserBatchGet(employeeIds []string, openIds []string) (*vo.GetUserBatchGetRespVo, error){
 	queryParams := make([]http.QueryParameter, 0)
 	if employeeIds != nil && len(employeeIds) > 0{
