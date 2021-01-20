@@ -194,6 +194,9 @@ func (t Tenant) GetDepartmentUserDetailListV2(departmentId string, pageToken str
 
 func (t Tenant) ListUsersByOpenIds(openIds []string) ([]vo.UserDetailInfo, error) {
 	n := len(openIds)
+	if n == 0 {
+		return nil, nil
+	}
 	begin := 0
 	end := 0
 	if n > 100 {

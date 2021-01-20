@@ -130,9 +130,13 @@ func (t Tenant) GetGroupIdByName(groupName string) string {
 	if err != nil {
 		logger.Errorf("get chat list failed:%s", err)
 	}
-	for _, group := range groupData.Data.Groups {
-		if group.Name == groupName {
-			groupId = group.ChatId
+	if groupData == nil {
+		logger.Errorf("groupData empty")
+	} else {
+		for _, group := range groupData.Data.Groups {
+			if group.Name == groupName {
+				groupId = group.ChatId
+			}
 		}
 	}
 	if groupId == "" {
@@ -144,6 +148,10 @@ func (t Tenant) GetGroupIdByName(groupName string) string {
 func (t Tenant) ListUserOpenIdsFromGroup(groupName string) []string {
 	var openIds []string
 	groupId := t.GetGroupIdByName(groupName)
+	if groupId == "" {
+		logger.Errorf("groupId empty")
+		return openIds
+	}
 
 	memberData, err := t.ChatInfo(groupId)
 	if err != nil {
