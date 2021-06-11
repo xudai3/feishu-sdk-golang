@@ -1,100 +1,100 @@
 package sdk
 
 import (
-	"errors"
 	"fmt"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 )
 
 type App struct {
-	AppId string
-	AppSecret string
+	AppId          string
+	AppSecret      string
 	AppAccessToken string
 }
 
 type Tenant struct {
 	TenantAccessToken string
-	Expire int64
+	Expire            int64
 }
 
 type User struct {
 	UserAccessToken string
 }
 
-func BuildInternalApp(appId, appSecret string, logLevel string) (*App, error){
+func BuildInternalApp(appId, appSecret string, logLevel string) (*App, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
 		return nil, err
 	}
 	resp, err := GetAppAccessTokenInternal(appId, appSecret)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
-	if resp.Code != 0{
-		return nil, errors.New(fmt.Sprintf("req err, code: %d, msg: %s", resp.Code, resp.Msg))
+	if resp.Code != 0 {
+		return nil, fmt.Errorf("req err, code: %d, msg: %s", resp.Code, resp.Msg)
 	}
 	return &App{
-		AppId: appId,
-		AppSecret: appSecret,
+		AppId:          appId,
+		AppSecret:      appSecret,
 		AppAccessToken: appSecret,
 	}, nil
 }
 
-func BuildApp(appId, appSecret, appTicket string, logLevel string) (*App, error){
+func BuildApp(appId, appSecret, appTicket string, logLevel string) (*App, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
 		return nil, err
 	}
 	resp, err := GetAppAccessToken(appId, appSecret, appTicket)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
-	if resp.Code != 0{
-		return nil, errors.New(fmt.Sprintf("req err, code: %d, msg: %s", resp.Code, resp.Msg))
+	if resp.Code != 0 {
+		return nil, fmt.Errorf("req err, code: %d, msg: %s", resp.Code, resp.Msg)
 	}
 	return &App{
-		AppId: appId,
-		AppSecret: appSecret,
+		AppId:          appId,
+		AppSecret:      appSecret,
 		AppAccessToken: resp.AppAccessToken,
 	}, nil
 }
 
-func BuildTenantInternal(appId, appSecret string, logLevel string) (*Tenant, error){
+func BuildTenantInternal(appId, appSecret string, logLevel string) (*Tenant, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
 		return nil, err
 	}
 	resp, err := GetTenantAccessTokenInternal(appId, appSecret)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
-	if resp.Code != 0{
-		return nil, errors.New(fmt.Sprintf("req err, code: %d, msg: %s", resp.Code, resp.Msg))
+	if resp.Code != 0 {
+		return nil, fmt.Errorf("req err, code: %d, msg: %s", resp.Code, resp.Msg)
 	}
 	return &Tenant{
 		TenantAccessToken: resp.TenantAccessToken,
-		Expire: resp.Expire,
+		Expire:            resp.Expire,
 	}, nil
 }
 
-func BuildTenant(appAccessToken, tenantKey string, logLevel string) (*Tenant, error){
+func BuildTenant(appAccessToken, tenantKey string, logLevel string) (*Tenant, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
 		return nil, err
 	}
 	resp, err := GetTenantAccessToken(appAccessToken, tenantKey)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
-	if resp.Code != 0{
-		return nil, errors.New(fmt.Sprintf("req err, code: %d, msg: %s", resp.Code, resp.Msg))
+	if resp.Code != 0 {
+		return nil, fmt.Errorf("req err, code: %d, msg: %s", resp.Code, resp.Msg)
 	}
 	return &Tenant{
 		TenantAccessToken: resp.TenantAccessToken,
-		Expire: resp.Expire,
+		Expire:            resp.Expire,
 	}, nil
 }

@@ -2,14 +2,15 @@ package sdk
 
 import (
 	"bytes"
+	"io"
+	"mime/multipart"
+	"os"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
-	"io"
-	"mime/multipart"
-	"os"
 )
 
 //func NewFileUploadRequest(uri string, params map[string]string, paramName, path string) error {
@@ -51,7 +52,7 @@ import (
 //	return err
 //}
 
-func (t Tenant) UploadPicBytes(picBytes []byte, imageType string) string {
+func (t Tenant) UploadPicBytes(picBytes []byte, imageType string) (string, error) {
 	var err error
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
@@ -59,65 +60,79 @@ func (t Tenant) UploadPicBytes(picBytes []byte, imageType string) string {
 
 	if err != nil {
 		logger.Errorf("create form field error:%s", err)
+		return "", err
 	}
 
 	_, err = image.Write(picBytes)
 	if err != nil {
 		logger.Errorf("write image error:%s", err)
+		return "", err
 	}
 
 	err = writer.WriteField("image_type", imageType)
 	if err != nil {
 		logger.Errorf("write image_type error:%s", err)
+		return "", err
 	}
 	err = writer.Close()
 	if err != nil {
 		logger.Errorf("write close error:%s", err)
+		return "", err
 	}
 
 	rsp := &vo.UploadImageRsp{}
 	resp, err := http.PostImage(consts.ApiUploadImage, body, http.BuildTokenHeaderOptions(t.TenantAccessToken), http.BuildMultiPartHeaderOptions(writer))
 	if err != nil {
 		logger.Errorf("upload pic failed:%s", err)
+		return "", err
 	}
 	json.FromJsonIgnoreError(resp, rsp)
-	return rsp.Data.ImageKey
+	return rsp.Data.ImageKey, nil
 }
 
-func (t Tenant) UploadPicFile(filePath string, imageType string) string {
+func (t Tenant) UploadPicFile(filePath string, imageType string) (string, error) {
 	var err error
 	file, err := os.Open(filePath)
+	if err != nil {
+		logger.Error(err)
+		return "", err
+	}
 	defer file.Close()
 	if err != nil {
-		logger.Errorf("open qr code file failed:%s", file)
-		return ""
+		logger.Errorf("open qr code file failed:%v", file)
+		return "", err
 	}
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 	image, err := writer.CreateFormFile("image", filePath)
 	if err != nil {
 		logger.Errorf("create form file error:%s", err)
+		return "", err
 	}
 
 	_, err = io.Copy(image, file)
 	if err != nil {
 		logger.Errorf("write image error:%s", err)
+		return "", err
 	}
 
 	err = writer.WriteField("image_type", imageType)
 	if err != nil {
 		logger.Errorf("write image_type error:%s", err)
+		return "", err
 	}
 	err = writer.Close()
 	if err != nil {
 		logger.Errorf("write close error:%s", err)
+		return "", err
 	}
 
 	rsp := &vo.UploadImageRsp{}
 	resp, err := http.PostImage(consts.ApiUploadImage, body, http.BuildTokenHeaderOptions(t.TenantAccessToken), http.BuildMultiPartHeaderOptions(writer))
 	if err != nil {
 		logger.Errorf("upload pic failed:%s", err)
+		return "", err
 	}
 	json.FromJsonIgnoreError(resp, rsp)
-	return rsp.Data.ImageKey
+	return rsp.Data.ImageKey, nil
 }

@@ -1,6 +1,8 @@
 package sdk
 
 import (
+	"fmt"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
@@ -37,59 +39,69 @@ func (t Tenant) SendMessageBatch(msg vo.BatchMsgVo) (*vo.MsgResp, error) {
 // ---------------
 // 自行封装的一些方法
 
-func (t Tenant) SendTextMessage(openId string, chatId string, text string) {
+func (t Tenant) SendTextMessage(openId string, chatId string, text string) error {
+	var err error
 	if chatId == "" && openId == "" {
-		logger.Debugf("openId and chatId empty, send msg failed")
-		return
+		err = fmt.Errorf("openId and chatId empty, send msg failed")
+		logger.Debug(err)
+		return err
 	}
 	msg := vo.MsgVo{
 		MsgType: consts.MsgTypeText,
-		OpenId: openId,
-		ChatId: chatId,
+		OpenId:  openId,
+		ChatId:  chatId,
 		Content: &vo.MsgContent{
 			Text: text,
 		},
 	}
-	_, err := t.SendMessage(msg)
+	_, err = t.SendMessage(msg)
 	if err != nil {
 		logger.Errorf("send message:%s failed:%s", text, err)
+		return err
 	}
+	return nil
 }
 
-func (t Tenant) SendImageMessage(openId string, chatId string, imageKey string) {
+func (t Tenant) SendImageMessage(openId string, chatId string, imageKey string) error {
+	var err error
 	if chatId == "" && openId == "" {
-		logger.Debugf("openId and chatId empty, send msg failed")
-		return
+		err = fmt.Errorf("openId and chatId empty, send msg failed")
+		logger.Debug(err)
+		return err
 	}
 	req := vo.MsgVo{
 		MsgType: consts.MsgTypeImage,
-		OpenId: openId,
-		ChatId: chatId,
+		OpenId:  openId,
+		ChatId:  chatId,
 		Content: &vo.MsgContent{
-			ImageKey:imageKey,
+			ImageKey: imageKey,
 		}}
 	rsp, err := t.SendMessage(req)
 	if err != nil {
 		logger.Errorf("send image message failed rsp:%v err:%v", rsp, err)
-		return
+		return err
 	}
+	return nil
 }
 
-func (t Tenant) SendCardMessage(openId string, chatId string, card *vo.Card, update bool) {
+func (t Tenant) SendCardMessage(openId string, chatId string, card *vo.Card, update bool) error {
+	var err error
 	if chatId == "" && openId == "" {
-		logger.Debugf("openId and chatId empty, send msg failed")
-		return
+		err = fmt.Errorf("openId and chatId empty, send msg failed")
+		logger.Debug(err)
+		return err
 	}
 	req := vo.MsgVo{
-		MsgType: consts.MsgTypeInteractive,
-		OpenId: openId,
-		ChatId:  chatId,
+		MsgType:     consts.MsgTypeInteractive,
+		OpenId:      openId,
+		ChatId:      chatId,
 		UpdateMulti: update,
 		Card:        card,
 	}
 	rsp, err := t.SendMessage(req)
 	if err != nil {
 		logger.Errorf("send card message failed rsp:%v err:%v", rsp, err)
-		return
+		return err
 	}
+	return nil
 }

@@ -1,6 +1,8 @@
 package sdk
 
 import (
+	"fmt"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/http"
@@ -124,14 +126,17 @@ func (t Tenant) AddBot(msg vo.UpdateChatData) (*vo.CommonVo, error) {
 // ---------------
 // 自行封装的一些方法
 
-func (t Tenant) GetGroupIdByName(groupName string) string {
+func (t Tenant) GetGroupIdByName(groupName string) (string, error) {
 	var groupId string
 	groupData, err := t.ChatList(100, "")
 	if err != nil {
 		logger.Errorf("get chat list failed:%s", err)
+		return "", err
 	}
 	if groupData == nil {
-		logger.Errorf("groupData empty")
+		err = fmt.Errorf("group:%s's groupData empty", groupName)
+		logger.Errorf(err.Error())
+		return "", err
 	} else {
 		for _, group := range groupData.Data.Groups {
 			if group.Name == groupName {
@@ -140,36 +145,45 @@ func (t Tenant) GetGroupIdByName(groupName string) string {
 		}
 	}
 	if groupId == "" {
-		logger.Errorf("未找到该群:%s", groupName)
+		err = fmt.Errorf("未找到该群:%s", groupName)
+		logger.Error(err.Error())
+		return "", err
 	}
-	return groupId
+	return groupId, nil
 }
 
-func (t Tenant) ListUserOpenIdsFromGroup(groupName string) []string {
+func (t Tenant) ListUserOpenIdsFromGroup(groupName string) ([]string, error) {
 	var openIds []string
-	groupId := t.GetGroupIdByName(groupName)
+	groupId, err := t.GetGroupIdByName(groupName)
+	if err != nil {
+		return openIds, err
+	}
 	if groupId == "" {
-		logger.Errorf("groupId empty")
-		return openIds
+		return openIds, fmt.Errorf("groupId empty")
 	}
 
 	memberData, err := t.ChatInfo(groupId)
 	if err != nil {
 		logger.Errorf("get member list failed:%s", err)
+		return openIds, err
 	}
 	openIds = make([]string, len(memberData.Data.Members))
 	for idx, member := range memberData.Data.Members {
 		openIds[idx] = member.OpenId
 	}
-	return openIds
+	return openIds, nil
 }
 
-func (t Tenant) ListUserInfosFromGroup(groupName string) []vo.UserDetailInfo {
-	openIds := t.ListUserOpenIdsFromGroup(groupName)
+func (t Tenant) ListUserInfosFromGroup(groupName string) ([]vo.UserDetailInfo, error) {
+	openIds, err := t.ListUserOpenIdsFromGroup(groupName)
+	if err != nil {
+		return nil, err
+	}
 
 	userDetails, err := t.ListUsersByOpenIds(openIds)
 	if err != nil {
 		logger.Errorf("get user details failed:%s", err)
+		return nil, err
 	}
-	return userDetails
+	return userDetails, nil
 }
