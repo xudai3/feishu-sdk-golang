@@ -1,16 +1,17 @@
 package sdk
 
 import (
+	"testing"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"gotest.tools/assert"
-	"testing"
 )
 
 func init() {
-	_ := logger.InitLogger(consts.Debug)
+	logger.InitLogger(consts.Debug)
 }
 
 func TestGetTenantAccessTokenInternal(t *testing.T) {
