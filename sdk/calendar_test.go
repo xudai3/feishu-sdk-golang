@@ -1,12 +1,13 @@
 package sdk
 
 import (
+	"testing"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"gotest.tools/assert"
-	"testing"
 )
 
 var calendarId = "feishu.cn_lNRyD5571uIiNGqLl1KZwe@group.calendar.feishu.cn"
@@ -31,10 +32,10 @@ func TestTenant_GetCalendar(t *testing.T) {
 }
 
 func TestTenant_CreateCalendar(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.CreateCalendar(vo.CreateCalendarReq{
@@ -47,10 +48,10 @@ func TestTenant_CreateCalendar(t *testing.T) {
 }
 
 func TestTenant_UpdateCalendar(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.UpdateCalendar(calendarId, vo.UpdateCalendarReq{
@@ -64,10 +65,10 @@ func TestTenant_UpdateCalendar(t *testing.T) {
 }
 
 func TestTenant_CreateCalendarEvent(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	attend := []vo.Attendees{}
@@ -94,10 +95,10 @@ func TestTenant_CreateCalendarEvent(t *testing.T) {
 }
 
 func TestTenant_GetCalendarEventList(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetCalendarEventList("feishu.cn_NEb1HqWfXyjSKu4zQ4fe3b@group.calendar.feishu.cn", nil, nil, nil)
@@ -107,10 +108,10 @@ func TestTenant_GetCalendarEventList(t *testing.T) {
 }
 
 func TestTenant_UpdateCalendarEvent(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.UpdateCalendarEvent(calendarId, calendarEventId, vo.CreateCalendarEventReq{
@@ -129,10 +130,10 @@ func TestTenant_UpdateCalendarEvent(t *testing.T) {
 }
 
 func TestTenant_DeleteCalendarEvent(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.DeleteCalendarEvent("feishu.cn_NEb1HqWfXyjSKu4zQ4fe3b@group.calendar.feishu.cn", "3cca07ad-206e-41c5-92d9-29be0118b043")
@@ -142,10 +143,10 @@ func TestTenant_DeleteCalendarEvent(t *testing.T) {
 }
 
 func TestTenant_UpdateCalendarEventAttendees(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	//{"employee_id":"","open_id":"ou_87f1b2210acad10a90cc3690802626d7","user_id":"","name":"樊宇","employee_no":""}
@@ -168,10 +169,10 @@ func TestTenant_UpdateCalendarEventAttendees(t *testing.T) {
 }
 
 func TestTenant_GetCalendarAttendeesAcl(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetCalendarAttendeesAcl(calendarId)
@@ -181,10 +182,10 @@ func TestTenant_GetCalendarAttendeesAcl(t *testing.T) {
 }
 
 func TestTenant_AddCalendarAttendeesAcl(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.AddCalendarAttendeesAcl(calendarId, vo.AddCalendarAttendeesAclReq{
@@ -200,10 +201,10 @@ func TestTenant_AddCalendarAttendeesAcl(t *testing.T) {
 }
 
 func TestTenant_DeleteCalendarAttendeesAcl(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 	resp, err := tenant.DeleteCalendarAttendeesAcl(calendarId, "ou_87f1b2210acad10a90cc3690802626d7")
 

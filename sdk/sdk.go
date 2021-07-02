@@ -21,7 +21,7 @@ type User struct {
 	UserAccessToken string
 }
 
-func BuildInternalApp(appId, appSecret string, logLevel string) (*App, error) {
+func BuildInternalApp(appId, appSecret, logLevel string) (*App, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
@@ -41,7 +41,7 @@ func BuildInternalApp(appId, appSecret string, logLevel string) (*App, error) {
 	}, nil
 }
 
-func BuildApp(appId, appSecret, appTicket string, logLevel string) (*App, error) {
+func BuildApp(appId, appSecret, appTicket, logLevel string) (*App, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
@@ -61,7 +61,7 @@ func BuildApp(appId, appSecret, appTicket string, logLevel string) (*App, error)
 	}, nil
 }
 
-func BuildTenantInternal(appId, appSecret string, logLevel string) (*Tenant, error) {
+func BuildTenantInternal(appId, appSecret, logLevel string) (*Tenant, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)
@@ -80,7 +80,7 @@ func BuildTenantInternal(appId, appSecret string, logLevel string) (*Tenant, err
 	}, nil
 }
 
-func BuildTenant(appAccessToken, tenantKey string, logLevel string) (*Tenant, error) {
+func BuildTenant(appAccessToken, tenantKey, logLevel string) (*Tenant, error) {
 	err := logger.InitLogger(logLevel)
 	if err != nil {
 		fmt.Printf("logger init failed:%v\n", err)

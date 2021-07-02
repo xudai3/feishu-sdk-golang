@@ -1,12 +1,13 @@
 package sdk
 
 import (
+	"testing"
+
 	"github.com/galaxy-book/feishu-sdk-golang/core/consts"
 	"github.com/galaxy-book/feishu-sdk-golang/core/model/vo"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/json"
 	"github.com/galaxy-book/feishu-sdk-golang/core/util/logger"
 	"gotest.tools/assert"
-	"testing"
 )
 
 func TestTenant_CheckUser(t *testing.T) {
@@ -26,10 +27,10 @@ func TestTenant_CheckUser(t *testing.T) {
 }
 
 func TestTenant_GetOrderList(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2deaa88e790f575e")
+	tenant, e := BuildTenant(app.AppAccessToken, "2deaa88e790f575e", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetOrderList(vo.GetOrderListReq{
@@ -41,10 +42,10 @@ func TestTenant_GetOrderList(t *testing.T) {
 }
 
 func TestTenant_GetOrderInfo(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2deaa88e790f575e")
+	tenant, e := BuildTenant(app.AppAccessToken, "2deaa88e790f575e", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetOrderInfo("6833281668439097346")

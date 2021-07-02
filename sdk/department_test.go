@@ -21,7 +21,6 @@ func TestTenant_GetScope(t *testing.T) {
 	assert.Equal(t, err, nil)
 	assert.Equal(t, resp.Code, 0)
 
-
 	//openIds := resp.Data.AuthedOpenIds
 	openIds := []string{"ou_b7d861c94cea4d316a6bfc5e8421994c"}
 	resp1, err := tenant.GetUserBatchGet(nil, openIds)
@@ -40,10 +39,10 @@ func TestTenant_GetScope(t *testing.T) {
 }
 
 func TestTenant_GetScopeV2(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetScopeV2()
@@ -53,10 +52,10 @@ func TestTenant_GetScopeV2(t *testing.T) {
 }
 
 func TestGetDepartmentSimpleList(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentSimpleList("0", 0, 100, true)
@@ -66,10 +65,10 @@ func TestGetDepartmentSimpleList(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentSimpleListV2(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentSimpleListV2("0", "", 100, true)
@@ -80,10 +79,10 @@ func TestTenant_GetDepartmentSimpleListV2(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentInfo(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentInfo("0")
@@ -93,10 +92,10 @@ func TestTenant_GetDepartmentInfo(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentUserList(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentUserList("0", 0, 100, true)
@@ -106,10 +105,10 @@ func TestTenant_GetDepartmentUserList(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentInfoBatch(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentSimpleListV2("0", "", 100, true)
@@ -118,9 +117,8 @@ func TestTenant_GetDepartmentInfoBatch(t *testing.T) {
 	assert.Equal(t, resp.Code, 0)
 	t.Log(json.ToJsonIgnoreError(resp))
 
-
 	deps := make([]string, 0)
-	for _, dep := range resp.Data.DepartmentInfos{
+	for _, dep := range resp.Data.DepartmentInfos {
 		deps = append(deps, dep.Id)
 	}
 	resp1, err := tenant.GetDepartmentInfoBatch(deps)
@@ -132,10 +130,10 @@ func TestTenant_GetDepartmentInfoBatch(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentUserV2List(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentUserListV2("0", "", 100, true)
@@ -145,10 +143,10 @@ func TestTenant_GetDepartmentUserV2List(t *testing.T) {
 }
 
 func TestTenant_GetDepartmentUserDetailList(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentSimpleList("0", 0, 100, true)
@@ -165,12 +163,11 @@ func TestTenant_GetDepartmentUserDetailList(t *testing.T) {
 
 }
 
-
 func TestTenant_GetDepartmentUserDetailListV2(t *testing.T) {
-	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket)
+	app, e := BuildApp(consts.TestAppId, consts.TestAppSecret, consts.TestTicket, consts.Debug)
 	t.Log(e)
 	t.Log(json.ToJsonIgnoreError(app))
-	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651")
+	tenant, e := BuildTenant(app.AppAccessToken, "2ed263bf32cf1651", consts.Debug)
 	t.Log(e)
 
 	resp, err := tenant.GetDepartmentSimpleList("0", 0, 100, true)
